@@ -9,7 +9,13 @@ import android.provider.BaseColumns;
  */
 public class DatabaseContract
 {
+    //URI data
+    public static final String CONTENT_AUTHORITY = "barqsoft.footballscores";
+    public static final String PATH = "scores";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+
     public static final String SCORES_TABLE = "scores_table";
+
     public static final class ScoreEntry implements BaseColumns
     {
         //Table data
@@ -59,8 +65,4 @@ public class DatabaseContract
         }
 
     }
-    //URI data
-    public static final String CONTENT_AUTHORITY = "barqsoft.footballscores";
-    public static final String PATH = "scores";
-    public static Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
 }

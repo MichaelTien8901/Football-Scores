@@ -14,12 +14,14 @@ import android.net.Uri;
 public class ScoresProvider extends ContentProvider
 {
     private static ScoresDBHelper mOpenHelper;
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
+    //private UriMatcher muriMatcher = buildUriMatcher();
+
     private static final int MATCHES = 100;
     private static final int MATCHES_WITH_LEAGUE = 101;
     private static final int MATCHES_WITH_ID = 102;
     private static final int MATCHES_WITH_DATE = 103;
     private static final int MATCHES_WITH_START_DATE = 104;
-    private UriMatcher muriMatcher = buildUriMatcher();
     private static final SQLiteQueryBuilder ScoreQuery =
             new SQLiteQueryBuilder();
     private static final String SCORES_BY_LEAGUE = DatabaseContract.ScoreEntry.LEAGUE_COL + " = ?";
@@ -33,42 +35,16 @@ public class ScoresProvider extends ContentProvider
 
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-        final String authority = DatabaseContract.BASE_CONTENT_URI.toString();
+        final String authority = DatabaseContract.CONTENT_AUTHORITY;
         matcher.addURI(authority, null , MATCHES);
         matcher.addURI(authority, "league" , MATCHES_WITH_LEAGUE);
         matcher.addURI(authority, "id" , MATCHES_WITH_ID);
         matcher.addURI(authority, "date" , MATCHES_WITH_DATE);
+        matcher.addURI(authority, "date/*", MATCHES_WITH_DATE); // not actually used in query.  But system will check type??
         matcher.addURI(authority, "start_date" , MATCHES_WITH_START_DATE);
         return matcher;
     }
 
-    private int match_uri(Uri uri)
-    {
-        String link = uri.toString();
-        {
-           if(link.contentEquals(DatabaseContract.BASE_CONTENT_URI.toString()))
-           {
-               return MATCHES;
-           }
-           else if(link.contentEquals(DatabaseContract.ScoreEntry.buildScoreWithDate().toString()))
-           {
-               return MATCHES_WITH_DATE;
-           }
-           else if(link.contentEquals(DatabaseContract.ScoreEntry.buildScoreWithStartDate().toString()))
-           {
-               return MATCHES_WITH_START_DATE;
-           }
-           else if(link.contentEquals(DatabaseContract.ScoreEntry.buildScoreWithId().toString()))
-           {
-               return MATCHES_WITH_ID;
-           }
-           else if(link.contentEquals(DatabaseContract.ScoreEntry.buildScoreWithLeague().toString()))
-           {
-               return MATCHES_WITH_LEAGUE;
-           }
-        }
-        return -1;
-    }
     @Override
     public boolean onCreate()
     {
@@ -85,7 +61,7 @@ public class ScoresProvider extends ContentProvider
     @Override
     public String getType(Uri uri)
     {
-        final int match = muriMatcher.match(uri);
+        final int match = sUriMatcher.match(uri);
         switch (match) {
             case MATCHES:
                 return DatabaseContract.ScoreEntry.CONTENT_TYPE;
@@ -106,7 +82,8 @@ public class ScoresProvider extends ContentProvider
     {
         Cursor retCursor;
         //Log.v(FetchScoreTask.LOG_TAG,uri.getPathSegments().toString());
-        int match = match_uri(uri);
+        //int match = match_uri(uri); // why use non-standard function?
+        final int match = sUriMatcher.match(uri);
         //Log.v(FetchScoreTask.LOG_TAG,SCORES_BY_LEAGUE);
         //Log.v(FetchScoreTask.LOG_TAG,selectionArgs[0]);
         //Log.v(FetchScoreTask.LOG_TAG,String.valueOf(match));
@@ -158,7 +135,9 @@ public class ScoresProvider extends ContentProvider
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         //db.delete(DatabaseContract.SCORES_TABLE,null,null);
         //Log.v(FetchScoreTask.LOG_TAG,String.valueOf(muriMatcher.match(uri)));
-        switch (match_uri(uri))
+        int match_id = sUriMatcher.match(uri);
+
+        switch (match_id)
         {
             case MATCHES:
                 db.beginTransaction();

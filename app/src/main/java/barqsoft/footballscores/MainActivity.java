@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity
 
         Uri contentUri = getIntent() != null ? getIntent().getData() : null;
         SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
-        if ( contentUri != null) {
+        if ( savedInstanceState == null && contentUri != null) {
             String dateStr = DatabaseContract.ScoreEntry.getDateStrFromUri(contentUri);
             // setup start_fragment
             for (int i = 0;i < PagerFragment.NUM_PAGES;i++) {

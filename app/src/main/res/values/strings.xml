@@ -40,4 +40,5 @@
     <string name="desc_share_button">share button</string>
     <string name="title_widget_detail">Football Scores</string>
     <string name="empty_score_list">No Score Data</string>
+    <string name="widget_title">Latest Scores</string>
 </resources>
