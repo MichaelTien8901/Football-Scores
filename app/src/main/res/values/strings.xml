@@ -38,4 +38,6 @@
     <string name="desc_league">League</string>
     <string name="desc_matchday">match day</string>
     <string name="desc_share_button">share button</string>
+    <string name="title_widget_detail">Football Scores</string>
+    <string name="empty_score_list">No Score Data</string>
 </resources>
