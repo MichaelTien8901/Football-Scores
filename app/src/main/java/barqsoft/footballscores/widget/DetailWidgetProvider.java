@@ -24,6 +24,7 @@ public class DetailWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        updateSscores(context);
         for (int appWidgetId: appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
@@ -39,7 +40,7 @@ public class DetailWidgetProvider extends AppWidgetProvider {
         // Create an Intent to launch MainActivity
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-        views.setOnClickPendingIntent(R.id.widget, pendingIntent);
+        views.setOnClickPendingIntent(R.id.detail_widget, pendingIntent);
 
         // Set up the collection
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -88,5 +89,10 @@ public class DetailWidgetProvider extends AppWidgetProvider {
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
         }
     }
+    private void updateSscores(Context context) {
+        Intent service_start = new Intent(context, MyFetchService.class);
+        context.startService(service_start);
+    }
+
 }
 

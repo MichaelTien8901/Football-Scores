@@ -111,15 +111,15 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                         R.layout.widget_detail_list_item);
 
                 String home_name = data.getString(INDEX_HOME);
-                views.setTextViewText(R.id.widget_home_name, home_name);
+                views.setTextViewText(R.id.widget_list_home_name, home_name);
                 String away_name = data.getString(INDEX_AWAY);
-                views.setTextViewText(R.id.widget_away_name, away_name);
-                views.setTextViewText(R.id.widget_time_textview, data.getString(INDEX_TIME));
-                views.setTextViewText(R.id.widget_date_textview, data.getString(INDEX_DATE));
+                views.setTextViewText(R.id.widget_list_away_name, away_name);
+                views.setTextViewText(R.id.widget_list_time_textview, data.getString(INDEX_TIME));
+                views.setTextViewText(R.id.widget_list_date_textview, data.getString(INDEX_DATE));
 
-                views.setTextViewText(R.id.widget_score_textview, Utilites.getScores(data.getInt(INDEX_HOME_GOALS), data.getInt(INDEX_AWAY_GOALS)));
-                views.setImageViewResource(R.id.widget_home_crest, Utilites.getTeamCrestByTeamName(home_name));
-                views.setImageViewResource(R.id.widget_away_crest, Utilites.getTeamCrestByTeamName(away_name));
+                views.setTextViewText(R.id.widget_list_score_textview, Utilites.getScores(data.getInt(INDEX_HOME_GOALS), data.getInt(INDEX_AWAY_GOALS)));
+                views.setImageViewResource(R.id.widget_listl_home_crest, Utilites.getTeamCrestByTeamName(home_name));
+                views.setImageViewResource(R.id.widget_list_away_crest, Utilites.getTeamCrestByTeamName(away_name));
 
 //                String description = home_name +
 //                        " vs " +
