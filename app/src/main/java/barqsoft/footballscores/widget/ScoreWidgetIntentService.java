@@ -1,5 +1,6 @@
 package barqsoft.footballscores.widget;
 
+import android.annotation.TargetApi;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -7,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.widget.RemoteViews;
 
 import java.util.Date;
@@ -75,7 +77,17 @@ public class ScoreWidgetIntentService extends IntentService {
         String awayNameText = data.getString(INDEX_AWAY);
         String timeText = data.getString(INDEX_TIME);
         String dateText = data.getString(INDEX_DATE);
-        String scoreText = Utilites.getScores(data.getInt(INDEX_HOME_GOALS), data.getInt(INDEX_AWAY_GOALS));
+        int homeGoals = data.getInt(INDEX_HOME_GOALS);
+        int awayGoals = data.getInt(INDEX_AWAY_GOALS);
+        String resultStr = homeGoals == awayGoals? getString(R.string.desc_tie):
+                (homeGoals > awayGoals?
+                        getString(R.string.desc_win):
+                        getString(R.string.desc_lose));
+        String description =
+                homeNameText + resultStr + awayNameText + " " +
+                homeGoals + getString(R.string.desc_score_compare) + awayGoals;
+
+        String scoreText = Utilites.getScores(homeGoals, awayGoals);
         int resHomeCrest = Utilites.getTeamCrestByTeamName(homeNameText);
         int resAwayCrest = Utilites.getTeamCrestByTeamName(awayNameText);
 
@@ -91,6 +103,11 @@ public class ScoreWidgetIntentService extends IntentService {
             views.setImageViewResource(R.id.widget_home_crest, resHomeCrest);
             views.setImageViewResource(R.id.widget_away_crest, resAwayCrest);
 
+            // Content Descriptions for RemoteViews were only added in ICS MR1
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                setRemoteContentDescription(views, description);
+            }
+
             // Create an Intent to launch MainActivity, pass date
             Intent launchIntent = new Intent(this, MainActivity.class);
             Uri uri = DatabaseContract.ScoreEntry.buildScoreWithDateString( data.getString(INDEX_DATE));
@@ -101,5 +118,9 @@ public class ScoreWidgetIntentService extends IntentService {
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+    }
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+    private void setRemoteContentDescription(RemoteViews views, String description) {
+        views.setContentDescription(R.id.score_widget, description);
     }
 }

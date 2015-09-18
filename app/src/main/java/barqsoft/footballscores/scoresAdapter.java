@@ -45,18 +45,21 @@ public class scoresAdapter extends CursorAdapter
     public void bindView(View view, final Context context, Cursor cursor)
     {
         final ViewHolder mHolder = (ViewHolder) view.getTag();
-        mHolder.home_name.setText(cursor.getString(COL_HOME));
-        mHolder.away_name.setText(cursor.getString(COL_AWAY));
+        String homeNameStr = cursor.getString(COL_HOME);
+        mHolder.home_name.setText(homeNameStr);
+        String awayNameStr = cursor.getString(COL_AWAY);
+        mHolder.away_name.setText(awayNameStr);
         mHolder.date.setText(cursor.getString(COL_MATCHTIME));
         mHolder.score.setText(Utilites.getScores(cursor.getInt(COL_HOME_GOALS), cursor.getInt(COL_AWAY_GOALS)));
         mHolder.match_id = cursor.getDouble(COL_ID);
         mHolder.home_crest.setImageResource(Utilites.getTeamCrestByTeamName(
                 cursor.getString(COL_HOME)));
         mHolder.away_crest.setImageResource(Utilites.getTeamCrestByTeamName(
-                cursor.getString(COL_AWAY)
-        ));
-        //Log.v(FetchScoreTask.LOG_TAG,mHolder.home_name.getText() + " Vs. " + mHolder.away_name.getText() +" id " + String.valueOf(mHolder.match_id));
-        //Log.v(FetchScoreTask.LOG_TAG,String.valueOf(detail_match_id));
+                cursor.getString(COL_AWAY)));
+        // add content description
+        mHolder.home_crest.setContentDescription( homeNameStr);
+        mHolder.away_crest.setContentDescription( awayNameStr);
+
         LayoutInflater vi = (LayoutInflater) context.getApplicationContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.detail_fragment, null);
@@ -78,8 +81,8 @@ public class scoresAdapter extends CursorAdapter
                 public void onClick(View v)
                 {
                     //add Share Action
-                    context.startActivity(createShareForecastIntent(mHolder.home_name.getText()+" "
-                    +mHolder.score.getText()+" "+mHolder.away_name.getText() + " "));
+                    context.startActivity(createShareScoreIntent(mHolder.home_name.getText() + " "
+                            + mHolder.score.getText() + " " + mHolder.away_name.getText() + " "));
                 }
             });
         }
@@ -89,7 +92,7 @@ public class scoresAdapter extends CursorAdapter
         }
 
     }
-    public Intent createShareForecastIntent(String ShareText) {
+    public Intent createShareScoreIntent(String ShareText) {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         shareIntent.setType("text/plain");

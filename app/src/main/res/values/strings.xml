@@ -42,4 +42,10 @@
     <string name="title_widget_score">Football Scores</string>
     <string name="empty_score_list">No Score Data</string>
     <string name="widget_title">Latest Scores</string>
+    <string name="desc_home_crest">home team</string>
+    <string name="desc_away_crest">away team</string>
+    <string name="desc_lose">"loses to "</string>
+    <string name="desc_win">"defeats "</string>
+    <string name="desc_tie">"ties with "</string>
+    <string name="desc_score_compare"> to </string>
 </resources>
