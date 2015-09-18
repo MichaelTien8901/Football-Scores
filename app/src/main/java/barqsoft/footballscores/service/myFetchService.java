@@ -33,7 +33,7 @@ public class MyFetchService extends IntentService
 {
     public static final String LOG_TAG = "myFetchService";
     public static final String ACTION_DATA_UPDATED =
-            "barqsoft.footballscores..ACTION_DATA_UPDATED";
+            "barqsoft.footballscores.ACTION_DATA_UPDATED";
 
     public MyFetchService()
     {
