@@ -67,24 +67,27 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                 long startDateInt = Utilites.removeTime(currentDate).getTime() - PagerFragment.NUM_PAGES/2*86400000;
                 String[] currentStrs = new String[] {
                         String.valueOf(startDateInt)};
-//                SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
-//                String[] currentStrs = new String[] {
-//                        mformat.format(currentDate)};
 
-                // This method is called by the app hosting the widget (e.g., the launcher)
-                // However, our ContentProvider is not exported so it doesn't have access to the
-                // data. Therefore we need to clear (and finally restore) the calling identity so
-                // that calls use our process and permission
                 final long identityToken = Binder.clearCallingIdentity();
                 Uri dataUri = DatabaseContract.ScoreEntry.buildScoreWithStartDate();
-                String sortArgs = DatabaseContract.ScoreEntry.INT_DATE_COL + " DESC LIMIT 10 ";
+                // change to all scores query
+                String sortArgs = DatabaseContract.ScoreEntry.INT_DATE_COL + " ASC ";
                 String selections = DatabaseContract.ScoreEntry.INT_DATE_COL
-                        + " >= ? AND " + DatabaseContract.ScoreEntry.HOME_GOALS_COL + " >= 0";
+                        + " >= ? ";
+//                       +"AND " + DatabaseContract.ScoreEntry.HOME_GOALS_COL + " >= 0";
                  data = getContentResolver().query(dataUri,
                         SCORES_COLUMNS,
                          selections,
                         currentStrs,
                         sortArgs );
+//                String sortArgs = DatabaseContract.ScoreEntry.INT_DATE_COL + " DESC LIMIT 10 ";
+//                String selections = DatabaseContract.ScoreEntry.INT_DATE_COL
+//                        + " >= ? AND " + DatabaseContract.ScoreEntry.HOME_GOALS_COL + " >= 0";
+//                 data = getContentResolver().query(dataUri,
+//                        SCORES_COLUMNS,
+//                         selections,
+//                        currentStrs,
+//                        sortArgs );
                 Binder.restoreCallingIdentity(identityToken);
             }
 

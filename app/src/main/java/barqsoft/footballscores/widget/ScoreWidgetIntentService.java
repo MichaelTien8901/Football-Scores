@@ -60,14 +60,23 @@ public class ScoreWidgetIntentService extends IntentService {
         String[] currentStrs = new String[] {
                 String.valueOf(startDateInt)};
         Uri dataUri = DatabaseContract.ScoreEntry.buildScoreWithStartDate();
-        String sortArgs = DatabaseContract.ScoreEntry.INT_DATE_COL + " DESC LIMIT 1";
+        // Change to query first
+        String sortArgs = DatabaseContract.ScoreEntry.INT_DATE_COL + " ASC LIMIT 1";
         String selections = DatabaseContract.ScoreEntry.INT_DATE_COL
-                + " >= ? AND " + DatabaseContract.ScoreEntry.HOME_GOALS_COL + " >= 0";
+                + " >= ? "; // AND " + DatabaseContract.ScoreEntry.HOME_GOALS_COL + " >= 0";
         Cursor data = getContentResolver().query(dataUri,
                 SCORES_COLUMNS,
                 selections,
                 currentStrs,
                 sortArgs );
+//        String sortArgs = DatabaseContract.ScoreEntry.INT_DATE_COL + " DESC LIMIT 1";
+//        String selections = DatabaseContract.ScoreEntry.INT_DATE_COL
+//                + " >= ? AND " + DatabaseContract.ScoreEntry.HOME_GOALS_COL + " >= 0";
+//        Cursor data = getContentResolver().query(dataUri,
+//                SCORES_COLUMNS,
+//                selections,
+//                currentStrs,
+//                sortArgs );
         if (data == null)
             return;
         if ( !data.moveToFirst()) {
