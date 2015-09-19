@@ -119,19 +119,16 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                 views.setTextViewText(R.id.widget_list_away_name, away_name);
                 views.setTextViewText(R.id.widget_list_time_textview, data.getString(INDEX_TIME));
                 views.setTextViewText(R.id.widget_list_date_textview, data.getString(INDEX_DATE));
+                String timeText = data.getString(INDEX_TIME);
+                String dateText = data.getString(INDEX_DATE);
+
                 int homeGoals = data.getInt(INDEX_HOME_GOALS);
                 int awayGoals = data.getInt(INDEX_AWAY_GOALS);
                 views.setTextViewText(R.id.widget_list_score_textview, Utilites.getScores(homeGoals, awayGoals));
                 views.setImageViewResource(R.id.widget_listl_home_crest, Utilites.getTeamCrestByTeamName(home_name));
                 views.setImageViewResource(R.id.widget_list_away_crest, Utilites.getTeamCrestByTeamName(away_name));
 
-                String resultStr = homeGoals == awayGoals? getString(R.string.desc_tie):
-                        (homeGoals > awayGoals?
-                                getString(R.string.desc_win):
-                                getString(R.string.desc_lose));
-                String description =
-                        home_name + resultStr + away_name + " " +
-                                homeGoals + getString(R.string.desc_score_compare) + awayGoals;
+                String description = Utilites.ScoreFormatter(getBaseContext(), home_name, away_name, homeGoals, awayGoals, dateText, timeText );
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
                     setRemoteContentDescription(views, description);

@@ -90,13 +90,9 @@ public class ScoreWidgetIntentService extends IntentService {
         String dateText = data.getString(INDEX_DATE);
         int homeGoals = data.getInt(INDEX_HOME_GOALS);
         int awayGoals = data.getInt(INDEX_AWAY_GOALS);
-        String resultStr = homeGoals == awayGoals? getString(R.string.desc_tie):
-                (homeGoals > awayGoals?
-                        getString(R.string.desc_win):
-                        getString(R.string.desc_lose));
-        String description =
-                homeNameText + resultStr + awayNameText + " " +
-                homeGoals + getString(R.string.desc_score_compare) + awayGoals;
+
+        String description = Utilites.ScoreFormatter(getBaseContext(),
+                homeNameText, awayNameText, homeGoals, awayGoals, dateText, timeText);
 
         String scoreText = Utilites.getScores(homeGoals, awayGoals);
         int resHomeCrest = Utilites.getTeamCrestByTeamName(homeNameText);

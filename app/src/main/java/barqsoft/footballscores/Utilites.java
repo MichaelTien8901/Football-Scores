@@ -3,6 +3,7 @@ package barqsoft.footballscores;
 import android.content.Context;
 import android.text.format.Time;
 
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -147,5 +148,19 @@ public class Utilites
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
+    }
+    public static String ScoreFormatter( Context context, String home, String away, int homeGoals, int awayGoals, String date, String time){
+        String formatStr;
+        if ( homeGoals < 0)
+            formatStr = context.getString(R.string.format_future_game);
+        else if ( homeGoals == awayGoals)
+            formatStr = context.getString(R.string.format_tie_game);
+        else if ( homeGoals > awayGoals)
+            formatStr = context.getString(R.string.format_win_game);
+        else
+            formatStr = context.getString(R.string.format_lose_game);
+
+        String description = MessageFormat.format(formatStr, new Object[]{home, away, homeGoals, awayGoals, time, date});
+        return description;
     }
 }
