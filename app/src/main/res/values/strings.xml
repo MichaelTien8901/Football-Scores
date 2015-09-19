@@ -48,4 +48,5 @@
     <string name="desc_win">"defeats "</string>
     <string name="desc_tie">"ties with "</string>
     <string name="desc_score_compare"> to </string>
+    <string name="widget_empty_text">No record found.</string>
 </resources>

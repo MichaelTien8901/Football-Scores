@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import java.util.Date;
@@ -71,6 +72,7 @@ public class ScoreWidgetIntentService extends IntentService {
             return;
         if ( !data.moveToFirst()) {
             data.close();
+            showEmptyWidget(appWidgetIds, appWidgetManager );
             return;
         }
         String homeNameText = data.getString(INDEX_HOME);
@@ -94,6 +96,9 @@ public class ScoreWidgetIntentService extends IntentService {
         for (int appWidgetId : appWidgetIds) {
              int layoutId = R.layout.widget_score;
             RemoteViews views = new RemoteViews(getPackageName(), layoutId);
+            views.setViewVisibility(R.id.score_widget, View.VISIBLE);
+            views.setViewVisibility(R.id.widget_score_empty_view, View.INVISIBLE);
+
 
             views.setTextViewText(R.id.widget_home_name, homeNameText);
             views.setTextViewText(R.id.widget_away_name, awayNameText);
@@ -122,5 +127,18 @@ public class ScoreWidgetIntentService extends IntentService {
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
     private void setRemoteContentDescription(RemoteViews views, String description) {
         views.setContentDescription(R.id.score_widget, description);
+    }
+    private void showEmptyWidget(int[] appWidgetIds, AppWidgetManager appWidgetManager) {
+        for (int appWidgetId : appWidgetIds) {
+            int layoutId = R.layout.widget_score;
+            RemoteViews views = new RemoteViews(getPackageName(), layoutId);
+            views.setViewVisibility(R.id.score_widget, View.INVISIBLE);
+            views.setViewVisibility(R.id.widget_score_empty_view, View.VISIBLE);
+            Intent launchIntent = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, launchIntent, 0);
+            views.setOnClickPendingIntent(R.id.widget_score_empty_view, pendingIntent);
+
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+        }
     }
 }

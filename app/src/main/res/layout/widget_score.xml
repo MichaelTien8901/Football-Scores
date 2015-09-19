@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/background_light"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:visibility="visible">
         <LinearLayout
             android:orientation="horizontal" android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,4 +94,13 @@
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/widget_score_empty_view"
+        android:text="@string/widget_empty_text"
+        android:textColor="@color/background_material_dark"
+        android:background="@android:color/background_light"
+        android:visibility="invisible"
+        android:gravity="center" />
 </FrameLayout>
