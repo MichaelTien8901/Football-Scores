@@ -2,7 +2,7 @@
 
 ##Overview
 
-An app that tracks current and future football matches (soccer, for students in the USA).
+An app that tracks current and future football matches (soccer, for students in the USA)
 
 What Will I Learn?
 
@@ -19,7 +19,7 @@ Download the initial project from [here](https://www.udacity.com/course/viewer#!
 
 ## Implementation Guide
 
-The implementation Guide can be download [here]
+The implementation Guide can be downloaded [here]
 (https://docs.google.com/document/d/1dF3tFXEllEnFvW0rnMcPzq4pYanE4mn0axzhsQ70r8g/pub?embedded=true)
 
 ## football-data.org API KEY
